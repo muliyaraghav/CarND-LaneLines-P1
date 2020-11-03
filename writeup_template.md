@@ -28,9 +28,26 @@ The Goals / Steps of this Project are the following:
 
 ### Reflection
 
-### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+### 1. Description of the Lane Detection Pipeline
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+My pipeline draw_lines() function, consisted of 6 steps. 
+  1. Convert Input Image to Grayscale
+  2. Smoothing [Gaussian Blur](https://docs.opencv.org/master/d4/d13/tutorial_py_filtering.html)
+  3. Edge Detection [Canny Edge Detection](https://docs.opencv.org/master/da/d22/tutorial_py_canny.html)
+  4. Apply a Region of Interest (ROI) Mask  
+  5. Detect Lines [Hough Lines](https://docs.opencv.org/3.4/d9/db0/tutorial_hough_lines.html) & [Draw Lines](https://docs.opencv.org/master/d6/d6e/group__imgproc__draw.html) as      Line Segments
+  6. Draw Single Solid Line per lane by filtering, Averaging and Extrapolation
+  7. Overlay the Detected Line Segments / Lines on Original Input Image so as to track the Lane Lines
+  
+  
+  
+  
+
+ 4. Apply a Region of Interest (ROI) Mask 
+    by Draw a filled polygon and
+    show the area that is the mask
+
+First, I converted the images to grayscale, then I .... 
 
 In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
 
