@@ -17,6 +17,13 @@ The goals / steps of this project are the following:
 
 [image1]: ./examples/grayscale.jpg "Grayscale"
 
+### Goals of the Project
+The Goals / Steps of this Project are the following:
+- Make a Pipeline (using tools like color selection, region of interest selection, grayscaling, Gaussian smoothing, Canny Edge Detection and Hough Tranform line detection) that Finds Lane Lines [Left & Right] on the Road from the given Input Images and Videos and then, track the detected Lane Lines with:
+  - Stage-1: Line Segments
+  - Stage-2: Solid Lines (Averaged/Extrapolated Single Line Segments drawn on to the Line Segments in the image)
+- Reflect on the Project Work as a project report below in this file
+ 
 ---
 
 ### Reflection
