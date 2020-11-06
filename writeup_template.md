@@ -43,31 +43,30 @@ using the below example image, I will explain the output of each step above.
 solidWhiteRight.jpg
 ![Example Input Image](https://github.com/xxx/UDACITY_SDCarEngg-ND_P1--Prj01-Lane/blob/master/xxx/0_SolidWhiteCurve_In.jpg "Image_Input")
 
-1. Convert the Input Image into Grayscale
-In this step, I converted the Color Image to a 1-Channel Grayscale Image. We do this to be convenient to perform the Image Processing Algos in the upcoming Steps.
-For this I used the cv2 Function "cv2.cvtColor(input_image, flag)", which converts an image from one color space to another. 
-Here, 
-- "input_image" is the Input Image
-- "flag" determines the type of conversion, which is cv2.COLOR_BGR2GRAY for BGR -> Gray conversion
-The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+####  1. Convert the Input Image into Grayscale
+  In this step, I converted the Color Image to a 1-Channel Grayscale Image. We do this to be convenient to perform the Image Processing Algos in the upcoming Steps.
+  For this I used the cv2 Function "cv2.cvtColor(input_image, flag)", which converts an image from one color space to another. 
+  Here, 
+  - "input_image" is the Input Image
+  - "flag" determines the type of conversion, which is cv2.COLOR_BGR2GRAY for BGR -> Gray conversion
+  The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
 
-2. Smoothing Gaussian Blur
-Edge detection results are easily affected by the noise in the image. So, before the edge detection, it is essential to filter out the noise to prevent false detection caused by it. This step will slightly smooth the image by removing high frequency content (eg: noise, edges) from the image.
-For this, I used the cv2 Function "cv2.GaussianBlur(input_image, (kernel_size, kernel_size), 0)" 
-Here,
-- "input_image" is the Input Image, which is the Image converted into Grayscale
-- "kernel_size" is the Gaussian kernel size. Here I used a value of 3 as optimum value between noise removal and retaining the required details in image. 
-The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+####  2. Smoothing Gaussian Blur
+  Edge detection results are easily affected by the noise in the image. So, before the edge detection, it is essential to filter out the noise to prevent false detection caused by it. This step will slightly smooth the image by removing high frequency content (eg: noise, edges) from the image.
+  For this, I used the cv2 Function "cv2.GaussianBlur(input_image, (kernel_size, kernel_size), 0)" 
+  Here,
+  - "input_image" is the Input Image, which is the Image converted into Grayscale
+  - "kernel_size" is the Gaussian kernel size. Here I used a value of 3 as optimum value between noise removal and retaining the required details in image. 
+  The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
 
-
-3. Edge Detection using Canny Edge Detection
-Canny Edge Detection is a popular multi-stage algorithm for edge detection.  
-For this I used the OpenCV Function cv2.Canny(input_image, low_threshold, high_threshold), in which, all required stages are combined into one function.
-Here,
-- "input_image" is the Input Image, which is the Smoothened Image from previous step. 
-- The largest value "high_threshold", is used to find initial segments of strong edges. Here I used value of 150 as high_threshold. 
-- The smallest value between low_threshold and high_threshold is used for edge linking. Here I used value of 50 as low_threshold. 
-The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+####  3. Edge Detection using Canny Edge Detection
+  Canny Edge Detection is a popular multi-stage algorithm for edge detection.  
+  For this I used the OpenCV Function cv2.Canny(input_image, low_threshold, high_threshold), in which, all required stages are combined into one function.
+  Here,
+  - "input_image" is the Input Image, which is the Smoothened Image from previous step. 
+  - The largest value "high_threshold", is used to find initial segments of strong edges. Here I used value of 150 as high_threshold. 
+  - The smallest value between low_threshold and high_threshold is used for edge linking. Here I used value of 50 as low_threshold. 
+  The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
 
 
 
