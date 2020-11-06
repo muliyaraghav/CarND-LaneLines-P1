@@ -29,14 +29,27 @@ The Goals / Steps of this Project are the following:
 ### Reflection
 
 ### 1. Description of the Lane Detection Pipeline
-My pipeline draw_lines() function, consisted of 6 steps. 
-  1. Convert Input Image to Grayscale
+My pipeline draw_lines() function, consisted of 7 steps. 
+  1. Convert the Input Image into Grayscale
   2. Smoothing [Gaussian Blur](https://docs.opencv.org/master/d4/d13/tutorial_py_filtering.html)
   3. Edge Detection [Canny Edge Detection](https://docs.opencv.org/master/da/d22/tutorial_py_canny.html)
   4. Apply a Region of Interest (ROI) Mask  
   5. Detect Lines [Hough Lines](https://docs.opencv.org/3.4/d9/db0/tutorial_hough_lines.html) & [Draw Lines](https://docs.opencv.org/master/d6/d6e/group__imgproc__draw.html) as      Line Segments
   6. Draw Single Solid Line per lane by filtering, Averaging and Extrapolation
   7. Overlay the Detected Line Segments / Lines on Original Input Image so as to track the Lane Lines
+
+
+using the below example image, I will explain the output of each step above. 
+solidWhiteRight.jpg
+![Example Input Image](https://github.com/xxx/UDACITY_SDCarEngg-ND_P1--Prj01-Lane/blob/master/xxx/0_SolidWhiteCurve_In.jpg "Image_Input")
+
+1. Convert the Input Image into Grayscale
+In this step, I converted the Color Image to a 1-Channel Grayscale Image. We do this to be convenient to perform the Image Processing Algos in the upcoming Steps.
+For this I used the cv2 Function cv2.cvtColor(input_image, flag), which converts an image from one color space to another. 
+Here, 
+- "input_image" is the Input Image
+- "flag" determines the type of conversion, which is cv2.COLOR_BGR2GRAY for BGR -> Gray conversion
+
 
 First, I converted the images to grayscale, then I .... 
 4. Apply a Region of Interest (ROI) Mask 
@@ -51,6 +64,8 @@ If you'd like to include images to show how the pipeline works, here is how to i
 
 ![alt text][image1]
 
+![][image1]
+![](image.png) 
 
 ### 2. Identify potential shortcomings with your current pipeline
 
