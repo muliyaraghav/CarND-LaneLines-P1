@@ -70,19 +70,20 @@ solidWhiteRight.jpg
 
 ####  4. Apply a Region of Interest (ROI) Mask
 This step is about cropping out the original image to the Region of Interest, to only portion with the Lane Lines on the Road.
-
 To actually do the cropping of the image, I Prepared the Mask using the cv2 Function cv2.fillPoly(mask, vertices, ignore_mask_color),
-where, 
-  a. "mask" is a Blank Mask to start with.
-  b. "vertices" is the Vertices of the Polygon which specifies the Region of Interest.  For the vertices, I used, % of Image Size rather than Absolute Points so as to handle Images of Any Size. Considering the origin point (0, 0) is upper left corner of the image, I used:
+where,
+  1. "mask" is a Blank Mask to start with. 
+  
+  2. "vertices" is the Vertices of the Polygon which specifies the Region of Interest.  For the vertices, I used, % of Image Size rather than Absolute Points so as to handle Images of Any Size. Considering the origin point (0, 0) is upper left corner of the image, I used:
       - 0.59 of y Size from 0 (Image Height from 0) for fixing Top Vertices of ROI
       - 0.48 of x Size from 0 (Image Length from 0) for fixing Left Top Vertex of ROI
       - 0.54 of x Size from 0 (Image Length from 0) for fixing Right Top Vertex of ROI and
       - Image Bottom Left & Right Corners (Full Image Height from 0) for fixing Bottom Vertices of ROI
      I found these Points to be Optimum for fixing the ROI that includes both the Left & Right Lane Lines up to a Distance up to Horizon.
-  c. "ignore_mask_color" is the Fill Color for filling pixels inside the polygon defined by "vertices" . I used 255 to Fill White.
-
-I then Applied the Mask to extract the Image only where, the Mask Pixels are Non-Zero. Using the cv2 Function cv2.bitwise_and(img, mask) (i.e., Input Image '&' ROI Mask),
+   
+   3. "ignore_mask_color" is the Fill Color for filling pixels inside the polygon defined by "vertices" . I used 255 to Fill White.
+   
+ I then Applied the Mask to extract the Image only where, the Mask Pixels are Non-Zero. Using the cv2 Function cv2.bitwise_and(img, mask) (i.e., Input Image '&' ROI Mask),
 where img is the Edge detected Image and mask is the Mask that I prepared above.
 
 The output image of this step on the example image "solidWhiteRight.jpg" and the vertices of the Polygon used for Region of Interest are as below. 
