@@ -68,6 +68,7 @@ solidWhiteRight.jpg
   - The smallest value between low_threshold and high_threshold is used for edge linking. Here I used value of 50 as low_threshold. 
   The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
 
+####  4. Apply a Region of Interest (ROI) Mask
 
 
 
