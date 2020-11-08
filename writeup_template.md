@@ -70,8 +70,8 @@ solidWhiteRight.jpg
 
 ####  4. Apply a Region of Interest (ROI) Mask
 This step is about cropping out the original image to the Region of Interest, to only portion with the Lane Lines on the Road.
-To actually do the cropping of the image, I Prepared the Mask using the cv2 Function cv2.fillPoly(mask, vertices, ignore_mask_color),
-where,
+
+To actually do the cropping of the image, I Prepared the Mask using the cv2 Function cv2.fillPoly(mask, vertices, ignore_mask_color) where,
   - "mask" is a Blank Mask to start with. 
   - "vertices" is the Vertices of the Polygon which specifies the Region of Interest.  For the vertices, I used, % of Image Size rather than Absolute Points so as to handle Images of Any Size. Considering the origin point (0, 0) is upper left corner of the image, I used:
       - 0.59 of y Size from 0 (Image Height from 0) for fixing Top Vertices of ROI
@@ -86,6 +86,11 @@ where img is the Edge detected Image and mask is the Mask that I prepared above.
 
 The output image of this step on the example image "solidWhiteRight.jpg" and the vertices of the Polygon used for Region of Interest are as below. 
 
+####  5. Detect Lines Hough Lines as ine Segments
+
+####  6. Draw Single Solid Line per lane by filtering, Averaging and Extrapolation
+
+####  7. Overlay the Detected Line Segments / Lines on Original Input Image so as to track the Lane Lines
 
 First, I converted the images to grayscale, then I .... 
 4. Apply a Region of Interest (ROI) Mask 
@@ -103,7 +108,8 @@ If you'd like to include images to show how the pipeline works, here is how to i
 ![][image1]
 ![](image.png) 
 
-### 2. Identify potential shortcomings with your current pipeline
+####  5. Detect Lines Hough Lines
+
 
 
 One potential shortcoming would be what would happen when ... 
