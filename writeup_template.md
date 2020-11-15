@@ -71,6 +71,10 @@ solidWhiteRight.jpg
 ####  4. Apply a Region of Interest (ROI) Mask
 This step is about cropping out the original image to the Region of Interest which is, only the portion with the Lane Lines on the Road.\
 To actually do the cropping of the image, I Prepared a Mask using the cv2 Function cv2.fillPoly(mask, vertices, ignore_mask_color) where,\
+- bullet1
+- bullet2
+* bullet a
+* bullet b
     * "mask" is a Blank Mask to start with.\
     * "vertices" is the Vertices of the Polygon which specifies the Region of Interest.  For the vertices, I used, % of Image Size rather than Absolute Points so as to handle Images of Any Size. Considering the origin point (0, 0) is upper left corner of the image, I used:
       * 0.59 of y Size from 0 (Image Height from 0) for fixing Top Vertices of ROI
