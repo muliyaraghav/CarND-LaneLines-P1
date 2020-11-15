@@ -84,30 +84,31 @@ I then Applied the Mask to extract the Image. For this, I used the cv2 Function 
 
 The output image of this step on the example image "solidWhiteRight.jpg" and the vertices of the Polygon used for Region of Interest are as below.
 
-####  5. Detect Lines Hough Lines as Line Segments
-  in this step, the Line Segments are detected using the cv2 Function cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), minLineLength=min_line_len, maxLineGap=max_line_gap),
-  Here,
-  - "img" is the Edge detected & ROI Mask applied Image
-  - "rho" and "theta" respectively are, the Distance Resolution in Pixels & Angular Resolution in Radians of the Hough Accumulator,
-  - "threshold" is the Hough Accumulator Grid Voting Threshold, i.e., Minimum No. of Points that are required in a Line to deduce a Line,
-  - "np.array([])" is an Empty List,
-  - "minLineLength" is the Minimum Length of Line Segments and
-  - "maxLineGapis" the Maximum allowed Gap between Points on the Same Line to Connect them.
-  I found following as Optimum Values for Detection of Line Segments in various Usecases: 
-    - rho = 1 Pixel,
-    - theta = 1 Degree (π/180 Radians),
-    - threshold = 32,
-    - minLineLength = 6 and
-    - maxLineGap = 2
-  Especially, minLineLength = 6 ensures that Small Stray Elements like Lane Paint Distortions, Shadows, etc. are Filtered-out and maxLineGap = 2 ensures that only Lane Line Segments in the Same Line are connected and Not the Lane Paint Spills or Patches by the Sides.
-  
-I then used the Helper Function draw_lines(img, lines, color=[255, 0, 0], thickness=4)
-in its Simplest Form to simply Draw the Line Segments detected by cv2.HoughLinesP().
-Here, img is a Blank Image to draw the Line Segments and
-lines are the Line Segments detected by cv2.HoughLinesP().
-This Helper Function in-turn uses the cv2 Function cv2.line(img, (x1, y1), (x2, y2), color, thickness) to Draw the Lines,
-where (x1, y1) and (x2, y2) are the Co-ordinates of the Line Segments and
-color and thickness respectively are the Color and the Thickness of the Lines to be drawn.
+####  5. Detect Lines [Hough Lines] and draw the Line Segments
+In this step, the Line Segments are detected using the cv2 Function cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), minLineLength=min_line_len, maxLineGap=max_line_gap),
+Here,
+- "img" is the Edge detected & ROI Mask applied Image
+- "rho" and "theta" respectively are, the Distance Resolution in Pixels & Angular Resolution in Radians of the Hough Accumulator,
+- "threshold" is the Hough Accumulator Grid Voting Threshold, i.e., Minimum No. of Points that are required in a Line to deduce a Line,
+- "np.array([])" is an Empty List,
+- "minLineLength" is the Minimum Length of Line Segments and
+- "maxLineGapis" the Maximum allowed Gap between Points on the Same Line to Connect them.
+
+I found following as Optimum Values for Detection of Line Segments in various Usecases: 
+- rho = 1 Pixel,
+- theta = 1 Degree (π/180 Radians),
+- threshold = 32,
+- minLineLength = 6 and
+- maxLineGap = 2
+    
+Especially, minLineLength = 6 ensures that Small Stray Elements like Lane Paint Distortions, Shadows, etc. are Filtered-out and maxLineGap = 2 ensures that only Lane Line Segments in the Same Line are connected and Not the Lane Paint Spills or Patches by the Sides.
+
+n then used the Helper Function draw_lines(img, lines, color=[255, 0, 0], thickness=4) in its simplest Form to simply Draw the Line Segments detected by cv2.HoughLinesP().
+Here, 
+- img is a Blank Image to draw the Line Segments and
+- lines are the Line Segments detected by cv2.HoughLinesP().
+
+This Helper Function in-turn uses the cv2 Function cv2.line(img, (x1, y1), (x2, y2), color, thickness) to Draw the Lines, where (x1, y1) and (x2, y2) are the Co-ordinates of the Line Segments and color and thickness respectively are the Color and the Thickness of the Lines to be drawn.
 
 ####  6. Draw Single Solid Line per lane by filtering, Averaging and Extrapolation
 
