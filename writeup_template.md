@@ -99,21 +99,24 @@ Here,
 - "minLineLength" is the Minimum Length of Line Segments and
 - "maxLineGapis" the Maximum allowed Gap between Points on the Same Line to Connect them.
 
-I found following as Optimum Values for Detection of Line Segments in various Usecases: 
+For deciding the values, I used Image length on x axis as reference  rather than absolute values, so as to handle Images of Any Size. I found following as optimum Values for Detection of Line Segments in various Usecases: 
 - rho = 1 Pixel,
 - theta = 1 Degree (π/180 Radians),
-- threshold = 32,
 - minLineLength = 6 and
 - maxLineGap = 2
-    
-Especially, minLineLength = 6 ensures that Small Stray Elements like Lane Paint Distortions, Shadows, etc. are Filtered-out and maxLineGap = 2 ensures that only Lane Line Segments in the Same Line are connected and Not the Lane Paint Spills or Patches by the Sides.
+- threshold = 32,
+- minLineLength = xsize//16  Ex: approx 60 Pixels
+- maxLineGapis =  minLineLength//2  Ex: approx 30 Pixels
+- threshold = h_min_line_len//4  Ex: approx 15 pixels
 
-n then used the Helper Function draw_lines(img, lines, color=[255, 0, 0], thickness=4) in its simplest Form to simply Draw the Line Segments detected by cv2.HoughLinesP().
+I then used the Helper Function draw_lines(img, lines, color=[255, 0, 0], thickness=4) in its simplest Form to simply Draw the Line Segments detected by cv2.HoughLinesP().
 Here, 
 - img is a Blank Image to draw the Line Segments and
 - lines are the Line Segments detected by cv2.HoughLinesP().
 
 This Helper Function in-turn uses the cv2 Function cv2.line(img, (x1, y1), (x2, y2), color, thickness) to Draw the Lines, where (x1, y1) and (x2, y2) are the Co-ordinates of the Line Segments and color and thickness respectively are the Color and the Thickness of the Lines to be drawn.
+
+The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
 
 ####  6. Draw Single Solid Line per lane by filtering, Averaging and Extrapolation
 
