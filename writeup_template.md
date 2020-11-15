@@ -24,10 +24,13 @@ The Goals / Steps of this Project are the following:
   - Stage-2: Solid Lines (Averaged/Extrapolated Single Line Segments drawn on to the Line Segments in the image)
 - Reflect on the Project Work as a project report below in this file
  
----
+The following assumptions are made for the design:
+- The camera is mounted always in the same position with respect to the road
+- There is always a visible white or yellow line on the road
+- We don’t have any vehicle in front of us
+- Highway scenario considered is with good weather conditions
 
 ### Reflection
-
 ### 1. Description of the Lane Detection Pipeline
 My pipeline draw_lines() function, consisted of 7 steps. 
   1. Convert the Input Image into Grayscale
@@ -60,13 +63,13 @@ solidWhiteRight.jpg
   The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
 
 ####  3. Edge Detection using Canny Edge Detection
-  Canny Edge Detection is a popular multi-stage algorithm for edge detection.  
-  For this I used the OpenCV Function cv2.Canny(input_image, low_threshold, high_threshold), in which, all required stages are combined into one function.
-  Here,
-  - "input_image" is the Input Image, which is the Smoothened Image from previous step. 
-  - The largest value "high_threshold", is used to find initial segments of strong edges. Here I used value of 150 as high_threshold. 
-  - The smallest value between low_threshold and high_threshold is used for edge linking. Here I used value of 50 as low_threshold. 
-  The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+Canny Edge Detection is a popular multi-stage algorithm for edge detection. Using this, we turn our image into pure black and white, where white represents the largest gradients (drastic changes in the connected pixel values) and they are the edges in the origical image. 
+For this I used the OpenCV Function cv2.Canny(input_image, low_threshold, high_threshold), in which, all required stages are combined into one function.
+Here,
+- "input_image" is the Input Image, which is the Smoothened Image from previous step. 
+- The largest value "high_threshold", is used to find initial segments of strong edges. Here I used value of 150 as high_threshold. 
+- The smallest value between low_threshold and high_threshold is used for edge linking. Here I used value of 50 as low_threshold. 
+The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
 
 ####  4. Apply a Region of Interest (ROI) Mask
 This step is about cropping out the original image to the Region of Interest which is, only the portion with the Lane Lines on the Road.
@@ -80,11 +83,13 @@ To actually do the cropping of the image, I Prepared a Mask using the cv2 Functi
 I found these Points to be Optimum for fixing the ROI that includes both the Left & Right Lane Lines up to a Distance up to Horizon.
 * "ignore_mask_color" is the Fill Color for filling pixels inside the polygon defined by "vertices" . I used 255 to Fill White.
 
-I then Applied the Mask to extract the Image. For this, I used the cv2 Function cv2.bitwise_and(img, mask) (i.e., Input Image '&' ROI Mask), where img is the Edge detected Image and mask is the Mask that I prepared above.
+I then Applied the Mask to extract the Image with our Region of interest. For this, I used the cv2 Function cv2.bitwise_and(img, mask) (i.e., Input Image '&' ROI Mask), where img is the Edge detected Image and mask is the Mask that I prepared above.
 
 The output image of this step on the example image "solidWhiteRight.jpg" and the vertices of the Polygon used for Region of Interest are as below.
 
 ####  5. Detect Lines [Hough Lines] and draw the Line Segments
+In this stage, we pass the processed image through the Hough transform.  In basic sense, the Hough transform will process the image and detect, where the pixels form lines. If the parameters tuned correctly, this will return the lane lines. 
+
 In this step, the Line Segments are detected using the cv2 Function cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), minLineLength=min_line_len, maxLineGap=max_line_gap),
 Here,
 - "img" is the Edge detected & ROI Mask applied Image
