@@ -27,6 +27,7 @@ My pipeline draw_lines() function, consisted of 7 steps.
 
 using the example image solidWhiteRight.jpg shown below, I will explain the output of each step above. 
 solidWhiteRight.jpg
+
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidWhiteRight.jpg "Image_Input")
 
 ####  1. Convert the Input Image into Grayscale
