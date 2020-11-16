@@ -119,6 +119,35 @@ This Helper Function in-turn uses the cv2 Function cv2.line(img, (x1, y1), (x2, 
 The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
 
 ####  6. Draw Single Solid Line per lane by filtering, Averaging and Extrapolation
+Ideally, if we set our parameters correctly, the Hough transform should give the lane line. But, in reality, its difficult to get solid single line to full extent, when the lane lines are dashed, contains Paint Distortions, Shadows, etc. One particular issue I encountered is how to extrapolate the fragmented lane lines to show continuous lines, since the result from Hough Transfrom is a bunch of segments shown in the left image. The desired result is shown in the right. 
+
+A continuous line like Y = a*X + b consists of two things:
+- slope of the line: coefficient “a”
+- intercept of the line: coefficient “b”
+
+By knowing above two parameters, we can find the top and bottom points on the line, so we can draw them on the image. I followed following steps for left line. 
+
+- #Pre-Processing#
+  we start with a bunch of segments from Hough Transform, and calculate slope of each segment: positive slope means the segment  belongs to left line, while negative slope means right line. For this, I used polyfit() function from the NumPy package, which is "slope(a), intercept(b) = np.polyfit ( X, Y, 1)" where,
+  The first parameter(X) is the first variable,
+  The second parameter(Y) is the second variable,
+  The third parameter is the degree of polynomial we wish to fit. Here for a linear function, we enter 1.
+
+  Meanwhile, we can find the minimum Y-coordinate of all points on both lines ( “minY” as shown with the dashed red line in the middle of image as below).
+
+- #Avg. Slope#
+starting from a bunch of segments with , we can calculate the slope of each segment. Then average value of them is the average slope of this lane line, that is the coefficient “a” in Y = a*X + b.
+
+- #Avg. Position#
+  We can compute the average value of X and Y coordinate of all points in the line, which determines the average position of this lane line. Here, using avg. slope “a”, we can easily calculate coefficient “b” using average position (avg_x, avg_y) as: b = avg_y -a*avg_x
+  
+- #Determine Top and Bottom Position#
+  In order to draw lane line on the image, we need to know the start and end points. We call them top and bottom points in the image since the line is vertical.
+  top_x = (minY -b)/a (note: minY is the minimum Y value of all points)
+  bottom_x = (maxY -b)/a = (image.shape[0] -b)/a
+
+ now, we can draw left lane line between points: (top_x, minY) and (bottom_x, maxY). In the same way, we can draw the right line for which,  slope has opposite sign.
+ 
 
 ####  7. Overlay the Detected Line Segments / Lines on Original Input Image so as to track the Lane Lines
 
