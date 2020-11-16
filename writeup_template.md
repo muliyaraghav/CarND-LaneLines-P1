@@ -1,30 +1,13 @@
 # **Finding Lane Lines on the Road** 
 
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
-
----
-
-**Finding Lane Lines on the Road**
-
-The goals / steps of this project are the following:
-* Make a pipeline that finds lane lines on the road
-* Reflect on your work in a written report
-
-
-[//]: # (Image References)
-
-[image1]: ./examples/grayscale.jpg "Grayscale"
-
 ### Goals of the Project
 The Goals / Steps of this Project are the following:
 - Make a Pipeline (using tools like color selection, region of interest selection, grayscaling, Gaussian smoothing, Canny Edge Detection and Hough Tranform line detection) that Finds Lane Lines [Left & Right] on the Road from the given Input Images and Videos and then, track the detected Lane Lines with:
   - Stage-1: Line Segments
   - Stage-2: Solid Lines (Averaged/Extrapolated Single Line Segments drawn on to the Line Segments in the image)
-- Reflect on the Project Work as a project report below in this file
+- Reflect on the Project Work as a project report
  
-The following assumptions are made for the design:
+following assumptions are made for the design:
 - The camera is mounted always in the same position with respect to the road
 - There is always a visible white or yellow line on the road
 - We don’t have any vehicle in front of us
@@ -38,13 +21,13 @@ My pipeline draw_lines() function, consisted of 7 steps.
   3. Edge Detection [Canny Edge Detection](https://docs.opencv.org/master/da/d22/tutorial_py_canny.html)
   4. Apply a Region of Interest (ROI) Mask  
   5. Detect Lines [Hough Lines](https://docs.opencv.org/3.4/d9/db0/tutorial_hough_lines.html) & [Draw Lines](https://docs.opencv.org/master/d6/d6e/group__imgproc__draw.html) as      Line Segments
-  6. Draw Single Solid Line per lane by filtering, Averaging and Extrapolation
+  6. Draw Single Solid Line per lane by Pre-Processing, Averaging and Extrapolation
   7. Overlay the Detected Line Segments / Lines on Original Input Image so as to track the Lane Lines
 
 
-using the below example image, I will explain the output of each step above. 
+using the example image solidWhiteRight.jpg shown below, I will explain the output of each step above. 
 solidWhiteRight.jpg
-![Example Input Image](https://github.com/xxx/UDACITY_SDCarEngg-ND_P1--Prj01-Lane/blob/master/xxx/0_SolidWhiteCurve_In.jpg "Image_Input")
+![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidWhiteRight.jpg "Image_Input")
 
 ####  1. Convert the Input Image into Grayscale
   In this step, I converted the Color Image to a 1-Channel Grayscale Image. We do this to be convenient to perform the Image Processing Algos in the upcoming Steps.
@@ -118,7 +101,7 @@ This Helper Function in-turn uses the cv2 Function cv2.line(img, (x1, y1), (x2, 
 
 The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
 
-####  6. Draw Single Solid Line per lane by filtering, Averaging and Extrapolation
+####  6. Draw Single Solid Line per lane by Pre-Processing, Averaging and Extrapolation
 Ideally, if we set our parameters correctly, the Hough transform should give the lane line. But, in reality, its difficult to get solid single line to full extent, when the lane lines are dashed, contains Paint Distortions, Shadows, etc. One particular issue I encountered is how to extrapolate the fragmented lane lines to show continuous lines, since the result from Hough Transfrom is a bunch of segments shown in the left image. The desired result is shown in the right. 
 
 A continuous line like Y = a*X + b consists of two things:
