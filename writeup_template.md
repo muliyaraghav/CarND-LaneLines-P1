@@ -127,7 +127,7 @@ A continuous line like Y = a*X + b consists of two things:
 
 By knowing above two parameters, we can find the top and bottom points on the line, so we can draw them on the image. I followed following steps for left line. 
 
-- #Pre-Processing#
+- **Pre-Processing**
   we start with a bunch of segments from Hough Transform, and calculate slope of each segment: positive slope means the segment  belongs to left line, while negative slope means right line. For this, I used polyfit() function from the NumPy package, which is "slope(a), intercept(b) = np.polyfit ( X, Y, 1)" where,
   The first parameter(X) is the first variable,
   The second parameter(Y) is the second variable,
@@ -135,13 +135,13 @@ By knowing above two parameters, we can find the top and bottom points on the li
 
   Meanwhile, we can find the minimum Y-coordinate of all points on both lines ( “minY” as shown with the dashed red line in the middle of image as below).
 
-- #Avg. Slope#
+- **Avg. Slope**
 starting from a bunch of segments with , we can calculate the slope of each segment. Then average value of them is the average slope of this lane line, that is the coefficient “a” in Y = a*X + b.
 
-- #Avg. Position#
+- **Avg. Position**
   We can compute the average value of X and Y coordinate of all points in the line, which determines the average position of this lane line. Here, using avg. slope “a”, we can easily calculate coefficient “b” using average position (avg_x, avg_y) as: b = avg_y -a*avg_x
   
-- #Determine Top and Bottom Position#
+- **Determine Top and Bottom Position**
   In order to draw lane line on the image, we need to know the start and end points. We call them top and bottom points in the image since the line is vertical.
   top_x = (minY -b)/a (note: minY is the minimum Y value of all points)
   bottom_x = (maxY -b)/a = (image.shape[0] -b)/a
