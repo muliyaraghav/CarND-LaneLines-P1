@@ -151,7 +151,19 @@ This Final Step's Output for the Example Input Image is:
 
  ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Final_img_out.jpg "Image_Input")
  
-### 2. Potential Shortcomings of the Current Pipeline
+### 2. Results after applying the result to video streams
+The above algorithm can be directly applied also to video streams as they can be treated as just a series of images. 
+
+SolidWhiteRight video without Extrapolation and Drawing Single Solid Line will show tracking by fragmented lines:
+[![Watch](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidWhiteRight.jpg)](https://youtu.be/rEtzoX_cBi0 "SolidWhiteRight Before Extrapolation")
+
+solidWhiteRight video After Drawing Extrapolated Solid Lines:
+[![Watch](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidWhiteRight.jpg)](https://youtu.be/MUS8TbtgQdk "solidWhiteRight After Extrapolation")
+
+solidYellowLeft video After Drawing Extrapolated Solid Lines: 
+[![Watch](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidYellowLeft.jpg (https://youtu.be/XlQkpykg62c "solidYellowLeft After Extrapolation")
+
+### 3. Potential Shortcomings of the Current Pipeline
 following assumptions are made for the simplified design and are also limitations of current design. 
 - The camera is mounted always in the same position with respect to the road. So, many of the parameters like ROI vertices are fixed or hard-coded. 
 - There is always a visible white or yellow line on the road is assumed. 
@@ -159,9 +171,7 @@ following assumptions are made for the simplified design and are also limitation
 - Highway scenario considered is assumed with good weather conditions. 
 - Level horizontal road is assumed. When the car makes turns or move uphill/downhill, lane line distortions may fail the algorithm designed.
 
-### 3. Suggest possible improvements to your pipeline
+### 4. Suggest possible improvements to your pipeline
 One first improvement can be, considering the higher order polynomials for extrapolating and drawing Single Solid Line per lane.  Straight line uses Y=a*X+b to model the lane, while curves can use higher order polynomials like Y=a*X² + b*X+c.
 
 Also adaptive ROI based on the Environment can be considered, especially to better handle different Road Elevations and Curves. 
-
-[![Watch](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Final_img_out.jpg)](https://youtu.be/rEtzoX_cBi0 "Video")
