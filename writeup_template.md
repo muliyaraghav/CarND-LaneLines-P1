@@ -6,12 +6,6 @@ The Goals / Steps of this Project are the following:
   - Stage-1: Line Segments
   - Stage-2: Solid Lines (Averaged/Extrapolated Single Line Segments drawn on to the Line Segments in the image)
 - Reflect on the Project Work as a project report
- 
-following assumptions are made for the design:
-- The camera is mounted always in the same position with respect to the road
-- There is always a visible white or yellow line on the road
-- We don’t have any vehicle in front of us
-- Highway scenario considered is with good weather conditions
 
 ### Reflection
 ### 1. Description of the Lane Detection Pipeline
@@ -30,7 +24,7 @@ solidWhiteRight.jpg :
 
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidWhiteRight.jpg "Image_Input")
 
-####  1. Convert the Input Image into Grayscale
+####  1.1 Convert the Input Image into Grayscale
   In this step, I converted the Color Image to a 1-Channel Grayscale Image. We do this to be convenient to perform the Image Processing Algos in the upcoming Steps.
   For this I used the cv2 Function "cv2.cvtColor(input_image, flag)", which converts an image from one color space to another. 
   Here, 
@@ -40,7 +34,7 @@ solidWhiteRight.jpg :
   
   ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/gray.jpg "Image_Input")
 
-####  2. Smoothing Gaussian Blur
+####  1.2 Smoothing Gaussian Blur
   Edge detection results are easily affected by the noise in the image. So, before the edge detection, it is essential to filter out the noise to prevent false detection caused by it. This step will slightly smooth the image by removing high frequency content (eg: noise, edges) from the image.
   For this, I used the cv2 Function "cv2.GaussianBlur(input_image, (kernel_size, kernel_size), 0)" 
   Here,
@@ -50,7 +44,7 @@ solidWhiteRight.jpg :
   
   ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Blur.jpg "Image_Input")
 
-####  3. Edge Detection using Canny Edge Detection
+####  1.3 Edge Detection using Canny Edge Detection
 Canny Edge Detection is a popular multi-stage algorithm for edge detection. Using this, we turn our image into pure black and white, where white represents the largest gradients (drastic changes in the connected pixel values) and they are the edges in the origical image. 
 For this I used the OpenCV Function cv2.Canny(input_image, low_threshold, high_threshold), in which, all required stages are combined into one function.
 Here,
@@ -61,7 +55,7 @@ The output image of this step on the example image "solidWhiteRight.jpg" is as b
 
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/edges.jpg "Image_Input")
 
-####  4. Apply a Region of Interest (ROI) Mask
+####  1.4 Apply a Region of Interest (ROI) Mask
 This step is about cropping out the original image to the Region of Interest which is, only the portion with the Lane Lines on the Road.
 To actually do the cropping of the image, I Prepared a Mask using the cv2 Function cv2.fillPoly(mask, vertices, ignore_mask_color) where,
 * "mask" is a Blank Mask to start with.
@@ -79,7 +73,7 @@ The output image of this step on the example image "solidWhiteRight.jpg" and the
 
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/edges_roi.jpg "Image_Input")
 
-####  5. Detect Lines [Hough Lines] and draw the Line Segments
+####  1.5 Detect Lines [Hough Lines] and draw the Line Segments
 In this stage, we pass the processed image through the Hough transform.  In basic sense, the Hough transform will process the image and detect, where the pixels form lines. If the parameters are tuned correctly, this will return our lane lines. 
 
 In this step, the Line Segments are detected using the cv2 Function cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), minLineLength=min_line_len, maxLineGap=max_line_gap),
@@ -112,7 +106,7 @@ The output image of this step on the example image "solidWhiteRight.jpg" is as b
 
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/HoughLines(1).jpg "Image_Input")
 
-####  6. Draw Single Solid Line per lane by Pre-Processing, Averaging and Extrapolation
+####  1.6 Draw Single Solid Line per lane by Pre-Processing, Averaging and Extrapolation
 Ideally, if we set our parameters correctly, the Hough transform should give the lane line. But, in reality, its difficult to get solid single line to full extent, when the lane lines are dashed, contains Paint Distortions, Shadows, etc. 
 One particular issue I encountered is how to extrapolate the fragmented lane lines to show continuous lines, since the result from Hough Transfrom is a bunch of segments shown in the abvove image. The expected result is shown in the below image. 
 
@@ -147,40 +141,26 @@ bottom_x = (maxY -b)/a = (image.shape[0] -b)/average_slope
 now, we can draw left lane line between points: (top_x, minY) and (bottom_x, maxY). In the same way, we can also draw the right line for which,  slope has opposite sign.
 
 
-####  7. Overlay the Detected Line Segments / Lines on Original Input Image so as to track the Lane Lines
-For this i used the OpenCV Image Blending function 
+####  1.7 Overlay the Detected Line Segments / Lines on Original Input Image so as to track the Lane Lines
+In this step, we overlay the above prepared Single Solid Line on the iginal Input Image so as to track the Lane Lines.  For this i used the OpenCV Image Blending function cv2 Function cv2.addWeighted(initial_img, α, img, β, γ) where, 
+- initial_img is the Original Input Image,
+- img is the image of extrapolated line segments
+- α is the Weight of initial_img, β is the Weight of img and γ is a Scalar added to each Sum.
 
-
-First, I converted the images to grayscale, then I .... 
-4. Apply a Region of Interest (ROI) Mask 
-    by Draw a filled polygon and
-    show the area that is the mask
-
-First, I converted the images to grayscale, then I .... 
-
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
-
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
+This Final Step's Output for the Example Input Image is:
 
  ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Final_img_out.jpg "Image_Input")
  
-
-![alt text][image1]
-
-![][image1]
-![](image.png) 
-
-####  5. Detect Lines Hough Lines
-
-
-
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
-
+### 2. Potential Shortcomings of the Current Pipeline
+following assumptions are made for the simplified design and are also limitations of current design. 
+- The camera is mounted always in the same position with respect to the road. So, many of the parameters like ROI vertices are fixed or hard-coded. 
+- There is always a visible white or yellow line on the road is assumed. 
+- We don’t have considered any vehicle in front of us. So, If there any car cutting into our lane, edge detection may not work properly. Also, large vehicle in the front blocking the lane visibility may fail the algorithm. 
+- Highway scenario considered is assumed with good weather conditions. 
+- Level horizontal road is assumed. When the car makes turns or move uphill/downhill, lane line distortions may fail the algorithm designed.
 
 ### 3. Suggest possible improvements to your pipeline
+One first improvement can be considering the higher order polynomials for extrapolating and drawing Single Solid Line per lane.  Straight line uses Y=a*X+b to model the lane, while curves can use higher order polynomials like Y=a*X² + b*X+c. 
+Also adaptive ROI based on the Environment - Especially to better handle different Road Elevations and Curves can be considered. 
 
-A possible improvement would be to ...
 
-Another potential improvement could be to ...
