@@ -25,8 +25,8 @@ My pipeline draw_lines() function, consisted of 7 steps.
   7. Overlay the Detected Line Segments / Lines on Original Input Image so as to track the Lane Lines
 
 
-using the example image solidWhiteRight.jpg shown below, I will explain the output of each step above. 
-solidWhiteRight.jpg
+using the example image solidWhiteRight.jpg shown below, I will explain the output of each step above.
+solidWhiteRight.jpg : 
 
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidWhiteRight.jpg "Image_Input")
 
@@ -37,6 +37,7 @@ solidWhiteRight.jpg
   - "input_image" is the Input Image
   - "flag" determines the type of conversion, which is cv2.COLOR_BGR2GRAY for BGR -> Gray conversion
   The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+  
   ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/gray.jpg "Image_Input")
 
 ####  2. Smoothing Gaussian Blur
@@ -46,6 +47,7 @@ solidWhiteRight.jpg
   - "input_image" is the Input Image, which is the Image converted into Grayscale
   - "kernel_size" is the Gaussian kernel size. Here I used a value of 3 as optimum value between noise removal and retaining the required details in image. 
   The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+  
   ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Blur.jpg "Image_Input")
 
 ####  3. Edge Detection using Canny Edge Detection
@@ -56,6 +58,7 @@ Here,
 - The largest value "high_threshold", is used to find initial segments of strong edges. Here I used value of 150 as high_threshold. 
 - The smallest value between low_threshold and high_threshold is used for edge linking. Here I used value of 50 as low_threshold. 
 The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/edges.jpg "Image_Input")
 
 ####  4. Apply a Region of Interest (ROI) Mask
@@ -73,10 +76,11 @@ I found these Points to be Optimum for fixing the ROI that includes both the Lef
 I then Applied the Mask to extract the Image with our Region of interest. For this, I used the cv2 Function cv2.bitwise_and(img, mask) (i.e., Input Image '&' ROI Mask), where img is the Edge detected Image and mask is the Mask that I prepared above.
 
 The output image of this step on the example image "solidWhiteRight.jpg" and the vertices of the Polygon used for Region of Interest are as below.
+
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/edges_roi.jpg "Image_Input")
 
 ####  5. Detect Lines [Hough Lines] and draw the Line Segments
-In this stage, we pass the processed image through the Hough transform.  In basic sense, the Hough transform will process the image and detect, where the pixels form lines. If the parameters tuned correctly, this will return the lane lines. 
+In this stage, we pass the processed image through the Hough transform.  In basic sense, the Hough transform will process the image and detect, where the pixels form lines. If the parameters are tuned correctly, this will return our lane lines. 
 
 In this step, the Line Segments are detected using the cv2 Function cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), minLineLength=min_line_len, maxLineGap=max_line_gap),
 Here,
@@ -93,7 +97,7 @@ For deciding the values, I used Image length on x axis as reference  rather than
 - minLineLength = 6 and
 - maxLineGap = 2
 - threshold = 32,
-- minLineLength = xsize//16  Ex: approx 60 Pixels
+- minLineLength = xsize//16  Ex: approx 60 Pixels in above example image of 960 x 540 pixels
 - maxLineGapis =  minLineLength//2  Ex: approx 30 Pixels
 - threshold = h_min_line_len//4  Ex: approx 15 pixels
 
@@ -105,42 +109,47 @@ Here,
 This Helper Function in-turn uses the cv2 Function cv2.line(img, (x1, y1), (x2, y2), color, thickness) to Draw the Lines, where (x1, y1) and (x2, y2) are the Co-ordinates of the Line Segments and color and thickness respectively are the Color and the Thickness of the Lines to be drawn.
 
 The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/HoughLines(1).jpg "Image_Input")
 
 ####  6. Draw Single Solid Line per lane by Pre-Processing, Averaging and Extrapolation
-Ideally, if we set our parameters correctly, the Hough transform should give the lane line. But, in reality, its difficult to get solid single line to full extent, when the lane lines are dashed, contains Paint Distortions, Shadows, etc. One particular issue I encountered is how to extrapolate the fragmented lane lines to show continuous lines, since the result from Hough Transfrom is a bunch of segments shown in the abvove image. The desired result is shown in the below image.  
+Ideally, if we set our parameters correctly, the Hough transform should give the lane line. But, in reality, its difficult to get solid single line to full extent, when the lane lines are dashed, contains Paint Distortions, Shadows, etc. 
+One particular issue I encountered is how to extrapolate the fragmented lane lines to show continuous lines, since the result from Hough Transfrom is a bunch of segments shown in the abvove image. The expected result is shown in the below image. 
+
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/SingleSolidLine(1).jpg "Image_Input")
 
 A continuous line like Y = a*X + b consists of two things:
 - slope of the line: coefficient “a”
 - intercept of the line: coefficient “b”
 
-By knowing above two parameters, we can find the top and bottom points on the line, so we can draw them on the image. Following picture shows the illustration of steps I followed for the left line. 
+By knowing above two parameters, we can find the top and bottom points on the line, so we can draw them on the image. Following picture shows the illustration of steps I followed for the left lane. 
 ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/ExtrapolationProcess1.jpg "Image_Input")
 
 - **Pre-Processing**
-  we start with a bunch of segments from Hough Transform, and calculate slope of each segment: positive slope means the segment  belongs to left line, while negative slope means right line. For this, I used polyfit() function from the NumPy package, which is "slope(a), intercept(b) = np.polyfit ( X, Y, 1)" where,
+we start with a bunch of segments from Hough Transform, and calculate slope for each segment and seperate them for left name and right lane. Positive slope means the segment  belongs to left lane, while negative slope means right lane . For this, I used polyfit() function from the NumPy package, which is "slope(a), intercept(b) = np.polyfit ( X, Y, 1)" where,
   The first parameter(X) is the first variable,
   The second parameter(Y) is the second variable,
   The third parameter is the degree of polynomial we wish to fit. Here for a linear function, we enter 1.
 
-  Meanwhile, we can find the minimum Y-coordinate of all points on both lines ( “minY” as shown with the dashed red line in the middle of image as below).
+Meanwhile, we can find the minimum Y-coordinate of all points on both the lanes ( “minY” as shown with the dashed red line in the middle of image above).
 
-- **Avg. Slope**
-starting from a bunch of segments with , we can calculate the slope of each segment. Then average value of them is the average slope of this lane line, that is the coefficient “a” in Y = a*X + b.
-
-- **Avg. Position**
-  We can compute the average value of X and Y coordinate of all points in the line, which determines the average position of this lane line. Here, using avg. slope “a”, we can easily calculate coefficient “b” using average position (avg_x, avg_y) as: b = avg_y -a*avg_x
+- **Avg. Slope and Avg. Position**
+In this step, we calculate the average value of slopes and average value of X and Y coordinate are calculated for both left and right lanes using the numpy.mean function. 
+From the average slope, we get the coefficient “a” in Y = a*X + b.
+From the average  of all points in the line, we get the average position (X, Y) of corresponding lane line as shown in the image above. 
+Finally, using avg. slope “a” and average position, we can easily calculate the intercept “b” as: [b = avg_y - (a * avg_x)]
   
 - **Determine Top and Bottom Position**
-  In order to draw lane line on the image, we need to know the start and end points. We call them top and bottom points in the image since the line is vertical.
-  top_x = (minY -b)/a (note: minY is the minimum Y value of all points)
-  bottom_x = (maxY -b)/a = (image.shape[0] -b)/a
+In order to draw lane line on the image, we need to know the start and end points.  
+top_x = (minY - b)/average_slope (note: minY is the minimum Y value of all points)
+bottom_x = (maxY -b)/a = (image.shape[0] -b)/average_slope
 
- now, we can draw left lane line between points: (top_x, minY) and (bottom_x, maxY). In the same way, we can draw the right line for which,  slope has opposite sign.
+now, we can draw left lane line between points: (top_x, minY) and (bottom_x, maxY). In the same way, we can also draw the right line for which,  slope has opposite sign.
 
 
 ####  7. Overlay the Detected Line Segments / Lines on Original Input Image so as to track the Lane Lines
+For this i used the OpenCV Image Blending function 
+
 
 First, I converted the images to grayscale, then I .... 
 4. Apply a Region of Interest (ROI) Mask 
