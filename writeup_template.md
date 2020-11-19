@@ -164,4 +164,4 @@ One first improvement can be, considering the higher order polynomials for extra
 
 Also adaptive ROI based on the Environment can be considered, especially to better handle different Road Elevations and Curves. 
 
-[![Watch the video](https://youtu.be/rEtzoX_cBi0)
+[![Watch the video](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Final_img_out.jpg)(https://youtu.be/rEtzoX_cBi0)
