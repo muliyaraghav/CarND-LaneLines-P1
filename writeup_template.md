@@ -164,7 +164,7 @@ solidWhiteRight video After Drawing Extrapolated Solid Lines is as below.  Pleas
 
 solidYellowLeft video After Drawing Extrapolated Solid Lines is as below.  Please press the below image to play the Video. 
 
-[![Watch](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidYellowLeft.jpg (https://youtu.be/XlQkpykg62c "solidYellowLeft After Extrapolation")
+[![Watch](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidYellowLeft.jpg)](https://youtu.be/XlQkpykg62c "solidYellowLeft After Extrapolation")
 
 ### 3. Potential Shortcomings of the Current Pipeline
 following assumptions are made for the simplified design and are also limitations of current design. 
