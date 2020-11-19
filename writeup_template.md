@@ -163,6 +163,7 @@ In order to draw a single line on the left and right lanes, I modified the draw_
 If you'd like to include images to show how the pipeline works, here is how to include an image: 
 
  ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Final_img_out.jpg "Image_Input")
+ 
 
 ![alt text][image1]
 
