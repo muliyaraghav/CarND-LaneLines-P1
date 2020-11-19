@@ -163,3 +163,5 @@ following assumptions are made for the simplified design and are also limitation
 One first improvement can be, considering the higher order polynomials for extrapolating and drawing Single Solid Line per lane.  Straight line uses Y=a*X+b to model the lane, while curves can use higher order polynomials like Y=a*X² + b*X+c.
 
 Also adaptive ROI based on the Environment can be considered, especially to better handle different Road Elevations and Curves. 
+
+[![Watch the video](https://youtu.be/rEtzoX_cBi0)
