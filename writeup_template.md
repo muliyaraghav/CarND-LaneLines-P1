@@ -154,13 +154,16 @@ This Final Step's Output for the Example Input Image is:
 ### 2. Results after applying the result to video streams
 The above algorithm can be directly applied also to video streams as they can be treated as just a series of images. 
 
-SolidWhiteRight video without Extrapolation and Drawing Single Solid Line will show tracking by fragmented lines:
+SolidWhiteRight video without Extrapolation and Drawing Single Solid Line will show tracking by fragmented lines. Please press the below image to play the Video. 
+
 [![Watch](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidWhiteRight.jpg)](https://youtu.be/rEtzoX_cBi0 "SolidWhiteRight Before Extrapolation")
 
-solidWhiteRight video After Drawing Extrapolated Solid Lines:
+solidWhiteRight video After Drawing Extrapolated Solid Lines is as below.  Please press the below image to play the Video. 
+
 [![Watch](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidWhiteRight.jpg)](https://youtu.be/MUS8TbtgQdk "solidWhiteRight After Extrapolation")
 
-solidYellowLeft video After Drawing Extrapolated Solid Lines: 
+solidYellowLeft video After Drawing Extrapolated Solid Lines is as below.  Please press the below image to play the Video. 
+
 [![Watch](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/test_images/solidYellowLeft.jpg (https://youtu.be/XlQkpykg62c "solidYellowLeft After Extrapolation")
 
 ### 3. Potential Shortcomings of the Current Pipeline
