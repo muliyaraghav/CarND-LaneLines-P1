@@ -37,6 +37,7 @@ solidWhiteRight.jpg
   - "input_image" is the Input Image
   - "flag" determines the type of conversion, which is cv2.COLOR_BGR2GRAY for BGR -> Gray conversion
   The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+  ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/gray.jpg "Image_Input")
 
 ####  2. Smoothing Gaussian Blur
   Edge detection results are easily affected by the noise in the image. So, before the edge detection, it is essential to filter out the noise to prevent false detection caused by it. This step will slightly smooth the image by removing high frequency content (eg: noise, edges) from the image.
@@ -45,6 +46,7 @@ solidWhiteRight.jpg
   - "input_image" is the Input Image, which is the Image converted into Grayscale
   - "kernel_size" is the Gaussian kernel size. Here I used a value of 3 as optimum value between noise removal and retaining the required details in image. 
   The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+    ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Blur.jpg "Image_Input")
 
 ####  3. Edge Detection using Canny Edge Detection
 Canny Edge Detection is a popular multi-stage algorithm for edge detection. Using this, we turn our image into pure black and white, where white represents the largest gradients (drastic changes in the connected pixel values) and they are the edges in the origical image. 
