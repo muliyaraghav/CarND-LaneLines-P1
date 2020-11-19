@@ -46,7 +46,7 @@ solidWhiteRight.jpg
   - "input_image" is the Input Image, which is the Image converted into Grayscale
   - "kernel_size" is the Gaussian kernel size. Here I used a value of 3 as optimum value between noise removal and retaining the required details in image. 
   The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
-    ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Blur.jpg "Image_Input")
+  ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Blur.jpg "Image_Input")
 
 ####  3. Edge Detection using Canny Edge Detection
 Canny Edge Detection is a popular multi-stage algorithm for edge detection. Using this, we turn our image into pure black and white, where white represents the largest gradients (drastic changes in the connected pixel values) and they are the edges in the origical image. 
@@ -56,6 +56,7 @@ Here,
 - The largest value "high_threshold", is used to find initial segments of strong edges. Here I used value of 150 as high_threshold. 
 - The smallest value between low_threshold and high_threshold is used for edge linking. Here I used value of 50 as low_threshold. 
 The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/edges.jpg "Image_Input")
 
 ####  4. Apply a Region of Interest (ROI) Mask
 This step is about cropping out the original image to the Region of Interest which is, only the portion with the Lane Lines on the Road.
@@ -72,6 +73,7 @@ I found these Points to be Optimum for fixing the ROI that includes both the Lef
 I then Applied the Mask to extract the Image with our Region of interest. For this, I used the cv2 Function cv2.bitwise_and(img, mask) (i.e., Input Image '&' ROI Mask), where img is the Edge detected Image and mask is the Mask that I prepared above.
 
 The output image of this step on the example image "solidWhiteRight.jpg" and the vertices of the Polygon used for Region of Interest are as below.
+![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/edges_roi.jpg "Image_Input")
 
 ####  5. Detect Lines [Hough Lines] and draw the Line Segments
 In this stage, we pass the processed image through the Hough transform.  In basic sense, the Hough transform will process the image and detect, where the pixels form lines. If the parameters tuned correctly, this will return the lane lines. 
@@ -103,15 +105,18 @@ Here,
 This Helper Function in-turn uses the cv2 Function cv2.line(img, (x1, y1), (x2, y2), color, thickness) to Draw the Lines, where (x1, y1) and (x2, y2) are the Co-ordinates of the Line Segments and color and thickness respectively are the Color and the Thickness of the Lines to be drawn.
 
 The output image of this step on the example image "solidWhiteRight.jpg" is as below. 
+![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/HoughLines(1).jpg "Image_Input")
 
 ####  6. Draw Single Solid Line per lane by Pre-Processing, Averaging and Extrapolation
-Ideally, if we set our parameters correctly, the Hough transform should give the lane line. But, in reality, its difficult to get solid single line to full extent, when the lane lines are dashed, contains Paint Distortions, Shadows, etc. One particular issue I encountered is how to extrapolate the fragmented lane lines to show continuous lines, since the result from Hough Transfrom is a bunch of segments shown in the left image. The desired result is shown in the right. 
+Ideally, if we set our parameters correctly, the Hough transform should give the lane line. But, in reality, its difficult to get solid single line to full extent, when the lane lines are dashed, contains Paint Distortions, Shadows, etc. One particular issue I encountered is how to extrapolate the fragmented lane lines to show continuous lines, since the result from Hough Transfrom is a bunch of segments shown in the abvove image. The desired result is shown in the below image.  
+![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/SingleSolidLine(1).jpg "Image_Input")
 
 A continuous line like Y = a*X + b consists of two things:
 - slope of the line: coefficient “a”
 - intercept of the line: coefficient “b”
 
-By knowing above two parameters, we can find the top and bottom points on the line, so we can draw them on the image. I followed following steps for left line. 
+By knowing above two parameters, we can find the top and bottom points on the line, so we can draw them on the image. Following picture shows the illustration of steps I followed for the left line. 
+![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/ExtrapolationProcess1.jpg "Image_Input")
 
 - **Pre-Processing**
   we start with a bunch of segments from Hough Transform, and calculate slope of each segment: positive slope means the segment  belongs to left line, while negative slope means right line. For this, I used polyfit() function from the NumPy package, which is "slope(a), intercept(b) = np.polyfit ( X, Y, 1)" where,
@@ -133,7 +138,7 @@ starting from a bunch of segments with , we can calculate the slope of each segm
   bottom_x = (maxY -b)/a = (image.shape[0] -b)/a
 
  now, we can draw left lane line between points: (top_x, minY) and (bottom_x, maxY). In the same way, we can draw the right line for which,  slope has opposite sign.
- 
+
 
 ####  7. Overlay the Detected Line Segments / Lines on Original Input Image so as to track the Lane Lines
 
@@ -147,6 +152,8 @@ First, I converted the images to grayscale, then I ....
 In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
 
 If you'd like to include images to show how the pipeline works, here is how to include an image: 
+
+ ![Example Input Image](https://github.com/muliyaraghav/CarND-LaneLines-P1/blob/master/Img_outputs/Final_img_out.jpg "Image_Input")
 
 ![alt text][image1]
 
